@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
