@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
 
     # Project Applications
-
+    'lists',
 ]
 
 MIDDLEWARE = [
