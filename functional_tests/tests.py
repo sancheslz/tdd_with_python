@@ -6,8 +6,10 @@ from selenium.webdriver.common.keys import Keys
 import time
 import unittest
 
+from django.test import LiveServerTestCase
 
-class NewVisitorTest(unittest.TestCase):
+
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         geckodriver_path = os.path.join(os.getcwd(), '..', 'geckodriver')
@@ -31,7 +33,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # Edith ouviu falar de uma nova aplicação online interessante
         # para lista de tarefas. Ele decidiu verificar sua homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Ela percebeu que o título da página e o cabeçalho
         # mencionam listas de tarefas (to-do)
@@ -79,7 +81,3 @@ class NewVisitorTest(unittest.TestCase):
         # Ela acessa esse URL - sua lista de tarefas continua lá
 
         # Satisfeita, ela volta a dormir
-
-
-if __name__ == '__main__':
-    unittest.main()
