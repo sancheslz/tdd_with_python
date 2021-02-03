@@ -11,33 +11,6 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'lists/home.html')
         self.assertIn('To-Do lists', response.content.decode('utf-8'))
 
-    def test_can_save_a_POST_request(self):
-        response = self.client.post('/', data={'item_text': 'A new list item'})
-
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.first()
-        self.assertEqual(new_item.text, 'A new list item')
-
-    def test_redirects_after_POST(self):
-        response = self.client.post('/', data={'item_text': 'A new list item'})
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'],
-                         '/lists/the-only-list-in-the-world/')
-
-    def test_only_saves_items_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Item.objects.count(), 0)
-
-    # def test_displays_all_list_items(self):
-    #     Item.objects.create(text='itemey1')
-    #     Item.objects.create(text='itemey2')
-
-    #     response = self.client.get('/')
-
-    #     self.assertIn('itemey1', response.content.decode())
-    #     self.assertIn('itemey2', response.content.decode())
-
 
 class ItemModelTest(TestCase):
 
@@ -73,3 +46,24 @@ class ListViewTest(TestCase):
 
         self.assertContains(response, 'itemey1')
         self.assertContains(response, 'itemey2')
+
+
+class NewListTest(TestCase):
+
+    def test_can_save_a_POST_request(self):
+        response = self.client.post(
+            path='/lists/new/',
+            data={'item_text': 'A new list item'}
+        )
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+    def test_redirects_after_POST(self):
+        response = self.client.post(
+            path='/lists/new/',
+            data={'item_text': 'A new list item'}
+        )
+
+        self.assertRedirects(response, '/lists/the-only-list-in-the-world/')
