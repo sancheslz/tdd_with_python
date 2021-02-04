@@ -7,13 +7,13 @@ from selenium.common.exceptions import WebDriverException
 import time
 import unittest
 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 
 MAX_WAIT = 10
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         geckodriver_path = os.path.join(os.getcwd(), '..', 'geckodriver')
@@ -26,6 +26,7 @@ class NewVisitorTest(LiveServerTestCase):
         )
 
     def tearDown(self):
+        self.browser.refresh()
         self.browser.quit()
 
     def wait_for_row_in_list_table(self, row_text):
